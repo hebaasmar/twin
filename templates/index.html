@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twin</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="twin-mark">
+          <div class="twin-mark-inner"></div>
+        </div>
+        <span class="twin-name">Twin</span>
+      </div>
+
+      <div class="section-label">
+        <span>Sessions</span>
+        <button id="new-session-btn" class="new-btn" title="New session">+</button>
+      </div>
+
+      <div id="session-list"></div>
+    </aside>
+
+    <!-- Main area -->
+    <main class="main">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="status-wrap">
+            <div id="status-dot" class="status-dot"></div>
+            <span id="meeting-status" class="status-label">No active meeting</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button id="start-meeting-btn" class="btn btn-primary">Start Meeting</button>
+          <button id="end-meeting-btn" class="btn btn-danger hidden">End Meeting</button>
+        </div>
+      </header>
+
+      <!-- Content area -->
+      <div class="content">
+        <!-- Chat/Feed panel -->
+        <section class="chat">
+          <div class="feed-header">
+            <span class="feed-title">Responses</span>
+            <button id="copy-feed-btn" class="copy-btn" onclick="copyFeed()">Copy All</button>
+          </div>
+          <div id="feed" class="feed">
+            <div class="feed-placeholder">
+              Start a meeting and hold spacebar to capture questions...
+            </div>
+          </div>
+
+          <!-- Agent chat compose -->
+          <div class="compose">
+            <div class="compose-wrap">
+              <textarea id="agent-input" class="compose-input"
+                        placeholder="Steer Twin (e.g. 'focus on metrics questions')"
+                        rows="1"></textarea>
+              <div id="capture-hint" class="capture-chip">
+                <kbd>SPACE</kbd>
+                <span class="capture-chip-text">Hold to capture</span>
+              </div>
+              <button id="agent-send" class="send-btn" title="Send">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Transcript panel -->
+        <aside class="transcript">
+          <div class="t-header">
+            <span class="t-title">Transcript</span>
+            <button class="copy-btn" onclick="copyTranscript()">Copy</button>
+          </div>
+          <div id="transcript-content" class="t-feed">
+            <div class="t-placeholder">Transcript will appear here...</div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Switch Session Modal -->
+  <div id="switch-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-title">Switch Session?</div>
+      <div class="modal-sub">You have an active meeting. Switching will end and lock the current session.</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="cancelSwitchSession()">Stay Here</button>
+        <button class="btn btn-danger" onclick="confirmSwitchSession()">End & Switch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Meeting Modal -->
+  <div id="end-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-title">End Meeting?</div>
+      <div class="modal-sub">This will permanently end the meeting and lock this session. You won't be able to add more captures to it.</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="cancelEndMeeting()">Keep Going</button>
+        <button class="btn btn-danger" onclick="confirmEndMeeting()">End Meeting</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
